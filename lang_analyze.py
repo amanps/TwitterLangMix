@@ -51,9 +51,19 @@ class TwitterLangMix:
         lang_list = sorted(self.lang_dict, key = self.lang_dict.get, reverse = True)
         count_list = sorted(self.lang_dict.values(), reverse = True)
         lang_range = range(len(lang_list))
-        matplot.xticks(lang_range, lang_list, rotation=45)
+        #matplot.xticks(lang_range, [''] * len(lang_list), rotation=45)
+        matplot.ylabel('Number of Tweets')
+        matplot.xlabel('Language')
         matplot.scatter(lang_range, count_list)
         matplot.plot(lang_range, count_list)
+        alternator = 1
+        for text, xcoord, ycoord in zip(lang_list, lang_range, count_list):
+            factor = 1
+            if alternator % 2 == 0:
+                factor = -1.5
+            matplot.annotate(text, xy = (xcoord, ycoord), xytext = (factor * 20, factor * 20), textcoords = 'offset points', \
+                    arrowprops = dict(arrowstyle = '-', connectionstyle='arc3,rad=0.3'))
+            alternator += 1
         matplot.savefig("LanguageDistribution.png")
 
     def calculate_language_percentage(self, lang_dict):

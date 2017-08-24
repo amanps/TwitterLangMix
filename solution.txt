@@ -1,6 +1,10 @@
-Total number of tweets: 8560
-Total number of tweets with language tag: 7999 (93.45%)
-Total number of languages provided by Twitter: 45
-Number of different languages tagged by LangID: 90
-Percentage of Twitter and LangID tags that agree: 0.85%
-Top 5 languages they disagree on: [(u'en', 431), (u'in', 230), (u'es', 118), (u'tl', 72), (u'pt', 71)]
+Total number of tweets: 8643
+Total number of tweets with language tag: 8033 (92.94%)
+Total number of languages provided by Twitter: 46
+
+Number of different languages tagged by LangID: 88
+Percentage of Twitter and LangID tags that agree: 85.12%
+Top 5 languages they disagree on: [(u'en', 480), (u'in', 173), (u'pt', 99), (u'tr', 89), (u'es', 82)]
+
+Number of tweets found from the US: 236
+Number of different languages in tweets from the US: 8

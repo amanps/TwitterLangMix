@@ -13,6 +13,7 @@ class TwitterLangMix:
     TOTAL_TWEETS = 0
     lang_dict = {}
     langid_dict = {}
+    disagree_dict = {}
     lang_percentage_dict = {}
     agree_list = []
     disagree_list = []
@@ -40,11 +41,17 @@ class TwitterLangMix:
                     continue
                 self.TOTAL_TWEETS += 1
                 self.check_language(tweet)
+
         self.solution_file.write("Total number of tweets: %s\n" % self.TOTAL_TWEETS)
         percent_lang_tagged = format((float(self.LANG_TAGGED_TWEETS) / self.TOTAL_TWEETS) * 100, ".2f")
         self.solution_file.write("Total number of tweets with language tag: %s (%s%%)\n" % (self.LANG_TAGGED_TWEETS, percent_lang_tagged))
         self.solution_file.write("Total number of languages provided by Twitter: %s\n" % len(self.lang_dict))
         self.calculate_language_percentage(self.lang_dict)
+        self.solution_file.write("Number of different languages tagged by LangID: %s\n" % len(self.langid_dict))
+        self.solution_file.write("Percentage of Twitter and LangID tags that agree: %s%%\n" % format(float(len(self.agree_list)) / (self.LANG_TAGGED_TWEETS) * 100, ".2f") )
+        self.solution_file.write("Top 5 languages they disagree on: %s\n" % \
+                (zip(sorted(self.disagree_dict, key=self.disagree_dict.get, reverse=True), sorted(self.disagree_dict.values(), reverse=True))[:5]))
+
         self.build_scatter_line_plot(self.lang_dict, "Languages", "Number of Tweets", "LanguageDistribution.png")
         self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages", "LanguagePercentDistribution.png")
 
@@ -93,6 +100,7 @@ class TwitterLangMix:
             self.lang_dict[language] = self.lang_dict.get(language, 0) + 1
             if language != langid_classified_lang:
                 self.disagree_list.append(tweet)
+                self.disagree_dict[tweet['lang']] = self.disagree_dict.get(tweet['lang'], 0) + 1
             else:
                 self.agree_list.append(tweet)
 

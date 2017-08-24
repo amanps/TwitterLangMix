@@ -6,6 +6,7 @@ except ImportError:
 from twitter import Twitter, OAuth, TwitterHTTPError, TwitterStream
 from api_keys import *
 import langid
+import matplotlib.pyplot as matplot
 
 class TwitterLangMix:
     LANG_TAGGED_TWEETS = 0
@@ -44,6 +45,16 @@ class TwitterLangMix:
         self.solution_file.write("Total number of tweets with language tag: %s (%s%%)\n" % (self.LANG_TAGGED_TWEETS, percent_lang_tagged))
         self.solution_file.write("Total number of languages provided by Twitter: %s\n" % len(self.lang_dict))
         self.calculate_language_percentage(self.lang_dict)
+        self.build_language_plots()
+
+    def build_language_plots(self):
+        lang_list = sorted(self.lang_dict, key = self.lang_dict.get, reverse = True)
+        count_list = sorted(self.lang_dict.values(), reverse = True)
+        lang_range = range(len(lang_list))
+        matplot.xticks(lang_range, lang_list, rotation=45)
+        matplot.scatter(lang_range, count_list)
+        matplot.plot(lang_range, count_list)
+        matplot.savefig("LanguageDistribution.png")
 
     def calculate_language_percentage(self, lang_dict):
         for lang, count in lang_dict.iteritems():

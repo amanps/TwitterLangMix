@@ -13,7 +13,7 @@ class TwitterLangMix:
     TOTAL_TWEETS = 0
     LOCATION_TWEETS = 0
     GEO_TAGGED_TWEETS = 0
-    JSON_DICT_FILE_NAME = 'location_data.json'
+    JSON_DICT_FILE_NAME = 'Solution/location_data.json'
 
     lang_dict = {}
     langid_dict = {}
@@ -68,7 +68,7 @@ class TwitterLangMix:
         self.solution_file.write("Number of tweets found from the US: %s\n" % self.LOCATION_TWEETS)
         self.solution_file.write("Number of different languages in tweets from the US: %s\n" % len(self.loc_lang_dict))
         self.calculate_language_percentage(self.loc_lang_dict, self.LOCATION_TWEETS)
-        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages in the US", "USLanguagePercentDistribution.png")
+        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages in the US", "Solution/USLanguagePercentDistribution.png")
 
     def process_tweets_in_file(self, filename):
         with open(filename) as f:
@@ -92,18 +92,22 @@ class TwitterLangMix:
         self.solution_file.write("Top 5 languages they disagree on: %s\n\n" % \
                 (zip(sorted(self.disagree_dict, key=self.disagree_dict.get, reverse=True), sorted(self.disagree_dict.values(), reverse=True))[:5]))
 
-        self.build_scatter_line_plot(self.lang_dict, "Languages", "Number of Tweets", "LanguageDistribution.png")
-        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages", "LanguagePercentDistribution.png")
+        self.build_scatter_line_plot(self.lang_dict, "Languages", "Number of Tweets", "Solution/LanguageDistribution.png")
+        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages", "Solution/LanguagePercentDistribution.png")
 
     def build_bar_plot(self, data_dict, xlabel, ylabel, filename):
         x_list = sorted(data_dict, key = data_dict.get, reverse = True)
         y_list = sorted(data_dict.values(), reverse = True)
         x_range = range(len(x_list))
         #matplot.figure(figsize=(30, 30))
+        annotate_str = "Top 5 languages:\n"
+        for x, y in zip(x_list, y_list)[:5]:
+            annotate_str += "%s: %s%%\n" % (x, y)
         matplot.barh(x_range, y_list, align = 'center', alpha = 1)
         matplot.yticks(x_range, x_list, fontsize=5)
         matplot.xlabel(xlabel)
         matplot.ylabel(ylabel)
+        matplot.text(x_range[len(x_range)/2], y_list[1], annotate_str)
         matplot.savefig(filename)
         matplot.clf()
 
@@ -116,6 +120,10 @@ class TwitterLangMix:
         matplot.xlabel(xlabel)
         matplot.scatter(x_range, y_list)
         matplot.plot(x_range, y_list)
+        annotate_str = "Total Tweets: %s\nTop 5 languages:\n" % self.LANG_TAGGED_TWEETS
+        for x, y in zip(x_list, y_list)[:5]:
+            annotate_str += "%s: %s\n" % (x, y)
+        matplot.text(x_range[len(x_range) - 15], y_list[1], annotate_str)
         alternator = 1
         for text, xcoord, ycoord in zip(x_list, x_range, y_list):
             factor = 1
@@ -146,8 +154,8 @@ class TwitterLangMix:
                 self.agree_list.append(tweet)
 
     def run_main(self):
-        tweet_file_name = "10000_tweets.txt"
-        solution_file_name = "solution.txt"
+        tweet_file_name = "Solution/10000_tweets.txt"
+        solution_file_name = "Solution/solution.txt"
         self.solution_file = open(solution_file_name, "w+")
         self.fetch_stream_to_file(10000, tweet_file_name)
         self.get_tweets_from_location("USA", "country")

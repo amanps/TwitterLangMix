@@ -6,5 +6,5 @@ Number of different languages tagged by LangID: 88
 Percentage of Twitter and LangID tags that agree: 85.12%
 Top 5 languages they disagree on: [(u'en', 480), (u'in', 173), (u'pt', 99), (u'tr', 89), (u'es', 82)]
 
-Number of tweets found from the US: 236
-Number of different languages in tweets from the US: 8
+Number of tweets found from the US: 820
+Number of different languages in tweets from the US: 16

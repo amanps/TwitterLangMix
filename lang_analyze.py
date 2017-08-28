@@ -79,7 +79,7 @@ class TwitterLangMix:
         self.solution_file.write("Number of different languages in tweets from/about the US: %s (See distribution plot)\n" % len(self.loc_lang_dict))
 
         self.calculate_language_percentage(self.loc_lang_dict, self.LOCATION_TWEETS)
-        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages in the US", "Solution/USLanguagePercentDistribution.png")
+        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages in the US", "Percentage Distribution of Languages from/about the US.", "Solution/USLanguagePercentDistribution.png")
 
     def process_tweets_in_file(self, filename):
         with open(filename) as f:
@@ -116,10 +116,10 @@ class TwitterLangMix:
             self.solution_file.write('"%s"\n' % tweet['text'].encode('utf-8'))
             self.solution_file.write("Twitter: %s\nLangId: %s Prob:%s\n\n" % (tweet['lang'], self.identifier.classify(tweet['text'])[0].encode('utf-8'), self.identifier.classify(tweet['text'])[1]))
 
-        self.build_scatter_line_plot(self.lang_dict, "Languages", "Number of Tweets", "Solution/LanguageDistribution.png")
-        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages", "Solution/LanguagePercentDistribution.png")
+        self.build_scatter_line_plot(self.lang_dict, "Languages", "Number of Tweets", "Language Distribution Across All Tweets", "Solution/LanguageDistribution.png")
+        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages", "Language Percentage Distribution Across All Tweets.", "Solution/LanguagePercentDistribution.png")
 
-    def build_bar_plot(self, data_dict, xlabel, ylabel, filename):
+    def build_bar_plot(self, data_dict, xlabel, ylabel, title, filename):
         x_list = sorted(data_dict, key = data_dict.get, reverse = True)
         y_list = sorted(data_dict.values(), reverse = True)
         x_range = range(len(x_list))
@@ -131,11 +131,12 @@ class TwitterLangMix:
         matplot.yticks(x_range, x_list, fontsize=5)
         matplot.xlabel(xlabel)
         matplot.ylabel(ylabel)
+        matplot.title(title)
         matplot.text(x_range[len(x_range)/2], y_list[1], annotate_str)
         matplot.savefig(filename)
         matplot.clf()
 
-    def build_scatter_line_plot(self, data_dict, xlabel, ylabel, filename):
+    def build_scatter_line_plot(self, data_dict, xlabel, ylabel, title, filename):
         x_list = sorted(data_dict, key = data_dict.get, reverse = True)
         y_list = sorted(data_dict.values(), reverse = True)
         x_range = range(len(x_list))
@@ -144,6 +145,7 @@ class TwitterLangMix:
         matplot.xlabel(xlabel)
         matplot.scatter(x_range, y_list)
         matplot.plot(x_range, y_list)
+        matplot.title(title, loc='right')
         annotate_str = "Total Tweets: %s\nTop 5 languages:\n" % self.LANG_TAGGED_TWEETS
         for x, y in zip(x_list, y_list)[:5]:
             annotate_str += "%s: %s\n" % (x, y)

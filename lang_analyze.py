@@ -69,8 +69,8 @@ class TwitterLangMix:
                 lang = tweet['lang']
                 self.loc_lang_dict[lang] = self.loc_lang_dict.get(lang, 0) + 1
 
-        self.solution_file.write("Number of tweets geotagged: %s\n" % self.GEO_TAGGED_TWEETS)
-        self.solution_file.write("Number of tweets geotagged US: %s\n" % self.GEOTAGGED_US_TWEETS)
+        self.solution_file.write("Number of tweets geotagged: %s (%s%%)\n" % (self.GEO_TAGGED_TWEETS, self.calculate_percentage(self.GEO_TAGGED_TWEETS, self.TOTAL_TWEETS)))
+        self.solution_file.write("Number of tweets geotagged US: %s (%s%%)\n" % (self.GEOTAGGED_US_TWEETS, self.calculate_percentage(self.GEOTAGGED_US_TWEETS, self.GEO_TAGGED_TWEETS)))
 
         self.solution_file.write("Number of tweets found from/about the US: %s\n" % self.LOCATION_TWEETS)
         self.solution_file.write("Number of different languages in tweets from/about the US: %s\n" % len(self.loc_lang_dict))
@@ -100,7 +100,7 @@ class TwitterLangMix:
         self.solution_file.write("Total number of languages provided by Twitter: %s\n\n" % len(self.lang_dict))
         self.calculate_language_percentage(self.lang_dict, self.TOTAL_TWEETS)
         self.solution_file.write("Number of different languages tagged by LangID: %s\n" % len(self.langid_dict))
-        self.solution_file.write("Percentage of Twitter and LangID tags that agree: %s%%\n" % format(float(len(self.agree_list)) / (self.LANG_TAGGED_TWEETS) * 100, ".2f") )
+        self.solution_file.write("Percentage of Twitter and LangID tags that agree: %s%%\n" % self.calculate_percentage(len(self.agree_list), self.LANG_TAGGED_TWEETS))
         self.solution_file.write("Top 5 languages they disagree on: %s\n" % \
                 (zip(sorted(self.disagree_dict, key=self.disagree_dict.get, reverse=True), sorted(self.disagree_dict.values(), reverse=True))[:5]))
         self.solution_file.write("Sample of tweets they disagree on in %s:\n\n" % (sorted(self.disagree_dict, key=self.disagree_dict.get, reverse=True)[0]))
@@ -151,9 +151,12 @@ class TwitterLangMix:
         matplot.savefig(filename)
         matplot.clf()
 
+    def calculate_percentage(self, observed, total):
+        return float(format((float(observed) / total) * 100, ".2f"))
+
     def calculate_language_percentage(self, lang_dict, total):
         for lang, count in lang_dict.iteritems():
-            self.lang_percentage_dict[lang] = float(format((float(count) / total) * 100, ".2f"))
+            self.lang_percentage_dict[lang] = self.calculate_percentage(count, total)
 
     def check_language(self, tweet):
         tweet_text = tweet['text']

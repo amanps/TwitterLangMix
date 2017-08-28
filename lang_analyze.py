@@ -28,6 +28,7 @@ class TwitterLangMix:
 
     agree_list = []
     disagree_list = []
+    interest_languages = ['en', 'ja', 'ar', 'pt', 'ko', 'ru', 'fr', 'hi', 'zh', 'hr', 'da', 'nl', 'de', 'es', 'sv', 'th', 'tr']
 
     def fetch_stream_to_file(self, tweet_count, filename):
         output_file = open(filename, "w+")
@@ -132,7 +133,7 @@ class TwitterLangMix:
         matplot.xlabel(xlabel)
         matplot.ylabel(ylabel)
         matplot.title(title)
-        matplot.text(x_range[len(x_range)/2], y_list[1], annotate_str)
+        matplot.text(0.5, 0.6, annotate_str, transform=matplot.gca().transAxes)
         matplot.savefig(filename)
         matplot.clf()
 
@@ -149,15 +150,18 @@ class TwitterLangMix:
         annotate_str = "Total Tweets: %s\nTop 5 languages:\n" % self.LANG_TAGGED_TWEETS
         for x, y in zip(x_list, y_list)[:5]:
             annotate_str += "%s: %s\n" % (x, y)
-        matplot.text(x_range[len(x_range) - 15], y_list[1], annotate_str)
+        annotate_str += "(Displaying languages of interest)"
+        matplot.text(0.5, 0.6, annotate_str, transform=matplot.gca().transAxes)
         alternator = 1
-        for text, xcoord, ycoord in zip(x_list, x_range, y_list):
+        for idx, tup in enumerate(zip(x_list, x_range, y_list)):
+            text, xcoord, ycoord = tup
             factor = 1
             if alternator % 2 == 0:
                 factor = -1.5
-            matplot.annotate(text, xy = (xcoord, ycoord), xytext = (factor * 20, factor * 20), textcoords = 'offset points', \
-                    arrowprops = dict(arrowstyle = '-', connectionstyle='arc3,rad=0.3'))
-            alternator += 1
+            if idx <= 5 or text in self.interest_languages:
+                matplot.annotate(text, xy = (xcoord, ycoord), xytext = (factor * 20, factor * 20), textcoords = 'offset points', \
+                        arrowprops = dict(arrowstyle = '-', connectionstyle='arc3,rad=0.3'))
+                alternator += 1
         matplot.savefig(filename)
         matplot.clf()
 

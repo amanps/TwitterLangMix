@@ -13,6 +13,8 @@ class TwitterLangMix:
     TOTAL_TWEETS = 0
     LOCATION_TWEETS = 0
     GEO_TAGGED_TWEETS = 0
+    GEOTAGGED_US_TWEETS = 0
+    GEO_TAGGED_TWEETS_WITH_PLACE = 0
     JSON_DICT_FILE_NAME = 'Solution/location_data.json'
 
     lang_dict = {}
@@ -65,8 +67,13 @@ class TwitterLangMix:
                     continue
                 lang = tweet['lang']
                 self.loc_lang_dict[lang] = self.loc_lang_dict.get(lang, 0) + 1
-        self.solution_file.write("Number of tweets found from the US: %s\n" % self.LOCATION_TWEETS)
+
+        self.solution_file.write("Number of tweets geotagged: %s\n" % self.GEO_TAGGED_TWEETS)
+        self.solution_file.write("Number of tweets geotagged US: %s\n" % self.GEOTAGGED_US_TWEETS)
+
+        self.solution_file.write("Number of tweets found from/about the US: %s\n" % self.LOCATION_TWEETS)
         self.solution_file.write("Number of different languages in tweets from the US: %s\n" % len(self.loc_lang_dict))
+
         self.calculate_language_percentage(self.loc_lang_dict, self.LOCATION_TWEETS)
         self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages in the US", "Solution/USLanguagePercentDistribution.png")
 
@@ -79,8 +86,12 @@ class TwitterLangMix:
                     continue
                 self.TOTAL_TWEETS += 1
                 self.check_language(tweet)
-                if 'geo' in tweet:
+                if 'coordinates' in tweet and tweet['coordinates']:
                     self.GEO_TAGGED_TWEETS += 1
+                    if 'place' in tweet:
+                        self.GEO_TAGGED_TWEETS_WITH_PLACE += 1
+                        if tweet['place']['country_code'] == 'US':
+                            self.GEOTAGGED_US_TWEETS += 1
 
         self.solution_file.write("Total number of tweets: %s\n" % self.TOTAL_TWEETS)
         percent_lang_tagged = format((float(self.LANG_TAGGED_TWEETS) / self.TOTAL_TWEETS) * 100, ".2f")

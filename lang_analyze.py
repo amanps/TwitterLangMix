@@ -5,7 +5,7 @@ except ImportError:
 
 from twitter import Twitter, OAuth, TwitterHTTPError, TwitterStream
 from api_keys import *
-import langid
+from langid.langid import LanguageIdentifier, model
 import matplotlib.pyplot as matplot
 
 class TwitterLangMix:
@@ -13,16 +13,21 @@ class TwitterLangMix:
     TOTAL_TWEETS = 0
     LOCATION_TWEETS = 0
     GEO_TAGGED_TWEETS = 0
-    JSON_DICT_FILE_NAME = 'Solution/location_data.json'
+    GEOTAGGED_US_TWEETS = 0
+    GEO_TAGGED_TWEETS_WITH_PLACE = 0
+    LINE_SEPARATOR = "*---*---*---" * 3 + "*\n\n"
 
     lang_dict = {}
     langid_dict = {}
     disagree_dict = {}
+    disagree_sample_dict = {}
+    agree_sample_dict = {}
     lang_percentage_dict = {}
     loc_lang_dict = {}
 
     agree_list = []
     disagree_list = []
+    interest_languages = ['en', 'ja', 'ar', 'pt', 'ko', 'ru', 'fr', 'hi', 'zh', 'hr', 'da', 'nl', 'de', 'es', 'sv', 'th', 'tr']
 
     def fetch_stream_to_file(self, tweet_count, filename):
         output_file = open(filename, "w+")
@@ -38,37 +43,50 @@ class TwitterLangMix:
 
         output_file.close()
 
-    def get_tweets_from_location(self, place, granularity):
+    def get_tweets_from_location(self, place_name, granularity):
         oauth = OAuth(ACCESS_TOKEN, ACCESS_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
         twitter = Twitter(auth=oauth)
-        places = twitter.geo.search(query='"%s"' % place, granularity="%s" % granularity)
+        places = twitter.geo.search(query='"%s"' % place_name, granularity="%s" % granularity)
         #Getting just the first place. Could be multiple results.
         for place in places['result']['places']:
             place_id = place['id']
             break
         search_query = twitter.search.tweets(q = "place:%s" % place_id, count = 100)
-        json_file = open(self.JSON_DICT_FILE_NAME, 'a')
+        json_file = open(self.build_location_json_file_name(place_name), 'a')
         json.dump(search_query, json_file)
         json_file.write('\n')
         json_file.close()
 
-    def process_location_tweets(self):
+    def build_location_json_file_name(self, place):
+        return "Solution/%s_tweets.json" % place
+
+    def process_location_tweets(self, place):
         query_list = []
-        with open(self.JSON_DICT_FILE_NAME, 'r') as json_file:
+        total_lang_tagged = 0
+        with open(self.build_location_json_file_name(place), 'r') as json_file:
             for line in json_file:
                 search_q = json.loads(line.strip())
                 query_list.append(search_q)
         for search_q in query_list:
             for tweet in search_q['statuses']:
                 self.LOCATION_TWEETS += 1
-                if 'lang' not in tweet:
+                if 'lang' not in tweet or tweet['lang'] == 'und':
                     continue
+                total_lang_tagged += 1
                 lang = tweet['lang']
                 self.loc_lang_dict[lang] = self.loc_lang_dict.get(lang, 0) + 1
-        self.solution_file.write("Number of tweets found from the US: %s\n" % self.LOCATION_TWEETS)
-        self.solution_file.write("Number of different languages in tweets from the US: %s\n" % len(self.loc_lang_dict))
-        self.calculate_language_percentage(self.loc_lang_dict, self.LOCATION_TWEETS)
-        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages in the US", "Solution/USLanguagePercentDistribution.png")
+
+        self.solution_file.write(self.LINE_SEPARATOR + "Number of tweets geotagged: %s (%s%%)\n" % (self.GEO_TAGGED_TWEETS, self.calculate_percentage(self.GEO_TAGGED_TWEETS, self.TOTAL_TWEETS)))
+        self.solution_file.write("Number of tweets geotagged '%s': %s (%s%%)\n\n" % (place, self.GEOTAGGED_US_TWEETS, self.calculate_percentage(self.GEOTAGGED_US_TWEETS, self.GEO_TAGGED_TWEETS)))
+
+        self.solution_file.write("Number of tweets geotagged were very few and those geotagged 'US' even fewer. Hence for a better language spread analysis, I decided to use USA as a place in a tweet search query which gives results for tweets that originated in or are about the US.\n\n")
+        self.solution_file.write("Number of tweets found from/about %s: %s\n" % (place, self.LOCATION_TWEETS))
+        self.solution_file.write("Number of different languages in tweets from/about %s: %s (See distribution plot)\n" % (place, len(self.loc_lang_dict)))
+
+        self.calculate_language_percentage(self.loc_lang_dict, total_lang_tagged)
+        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages in %s" % place, "Percentage Distribution of Languages from/about %s." % place, "Solution/%sLanguagePercentDistribution.png" % place)
+        self.build_scatter_line_plot(self.loc_lang_dict, "Languages", "Number of Tweets", "Language Distribution in %s" % place, total_lang_tagged, "Solution/%sLanguageDistribution.png" % place)
+        self.loc_lang_dict = {}
 
     def process_tweets_in_file(self, filename):
         with open(filename) as f:
@@ -79,23 +97,36 @@ class TwitterLangMix:
                     continue
                 self.TOTAL_TWEETS += 1
                 self.check_language(tweet)
-                if 'geo' in tweet:
+                if 'coordinates' in tweet and tweet['coordinates']:
                     self.GEO_TAGGED_TWEETS += 1
+                    if 'place' in tweet:
+                        self.GEO_TAGGED_TWEETS_WITH_PLACE += 1
+                        if tweet['place']['country_code'] == 'US':
+                            self.GEOTAGGED_US_TWEETS += 1
 
-        self.solution_file.write("Total number of tweets: %s\n" % self.TOTAL_TWEETS)
+        self.solution_file.write("Total number of tweets: %s\n\n" % self.TOTAL_TWEETS)
         percent_lang_tagged = format((float(self.LANG_TAGGED_TWEETS) / self.TOTAL_TWEETS) * 100, ".2f")
         self.solution_file.write("Total number of tweets with language tag: %s (%s%%)\n" % (self.LANG_TAGGED_TWEETS, percent_lang_tagged))
-        self.solution_file.write("Total number of languages provided by Twitter: %s\n\n" % len(self.lang_dict))
+        self.solution_file.write("Total number of different languages provided by Twitter: %s (See distribution plot)\n\n" % len(self.lang_dict))
         self.calculate_language_percentage(self.lang_dict, self.TOTAL_TWEETS)
-        self.solution_file.write("Number of different languages tagged by LangID: %s\n" % len(self.langid_dict))
-        self.solution_file.write("Percentage of Twitter and LangID tags that agree: %s%%\n" % format(float(len(self.agree_list)) / (self.LANG_TAGGED_TWEETS) * 100, ".2f") )
+        self.solution_file.write("Number of different languages tagged by LangID: %s\n\n" % len(self.langid_dict))
+        self.solution_file.write("Percentage of Twitter and LangID tags that agree: %s%%\n" % self.calculate_percentage(len(self.agree_list), self.LANG_TAGGED_TWEETS))
         self.solution_file.write("Top 5 languages they disagree on: %s\n\n" % \
                 (zip(sorted(self.disagree_dict, key=self.disagree_dict.get, reverse=True), sorted(self.disagree_dict.values(), reverse=True))[:5]))
+        self.solution_file.write(self.LINE_SEPARATOR + "Sample of tweets they disagree on in %s:\n\n" % (sorted(self.disagree_dict, key=self.disagree_dict.get, reverse=True)[0]))
+        for tweet in self.disagree_sample_dict['en'][:10]:
+            self.solution_file.write('"%s"\n' % tweet['text'].encode('utf-8'))
+            self.solution_file.write("Twitter: %s\nLangId: %s Prob:%s\n\n" % (tweet['lang'], self.identifier.classify(tweet['text'])[0].encode('utf-8'), self.identifier.classify(tweet['text'])[1]))
 
-        self.build_scatter_line_plot(self.lang_dict, "Languages", "Number of Tweets", "Solution/LanguageDistribution.png")
-        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages", "Solution/LanguagePercentDistribution.png")
+        self.solution_file.write(self.LINE_SEPARATOR + "Sample of tweets they agree on:\n\n")
+        for tweet in self.agree_sample_dict['en'][:10]:
+            self.solution_file.write('"%s"\n' % tweet['text'].encode('utf-8'))
+            self.solution_file.write("Twitter: %s\nLangId: %s Prob:%s\n\n" % (tweet['lang'], self.identifier.classify(tweet['text'])[0].encode('utf-8'), self.identifier.classify(tweet['text'])[1]))
 
-    def build_bar_plot(self, data_dict, xlabel, ylabel, filename):
+        self.build_scatter_line_plot(self.lang_dict, "Languages", "Number of Tweets", "Language Distribution Across All Tweets", self.LANG_TAGGED_TWEETS, "Solution/LanguageDistribution.png")
+        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages", "Language Percentage Distribution Across All Tweets.", "Solution/LanguagePercentDistribution.png")
+
+    def build_bar_plot(self, data_dict, xlabel, ylabel, title, filename):
         x_list = sorted(data_dict, key = data_dict.get, reverse = True)
         y_list = sorted(data_dict.values(), reverse = True)
         x_range = range(len(x_list))
@@ -107,11 +138,12 @@ class TwitterLangMix:
         matplot.yticks(x_range, x_list, fontsize=5)
         matplot.xlabel(xlabel)
         matplot.ylabel(ylabel)
-        matplot.text(x_range[len(x_range)/2], y_list[1], annotate_str)
+        matplot.title(title)
+        matplot.text(0.5, 0.6, annotate_str, transform=matplot.gca().transAxes)
         matplot.savefig(filename)
         matplot.clf()
 
-    def build_scatter_line_plot(self, data_dict, xlabel, ylabel, filename):
+    def build_scatter_line_plot(self, data_dict, xlabel, ylabel, title, total, filename):
         x_list = sorted(data_dict, key = data_dict.get, reverse = True)
         y_list = sorted(data_dict.values(), reverse = True)
         x_range = range(len(x_list))
@@ -120,28 +152,36 @@ class TwitterLangMix:
         matplot.xlabel(xlabel)
         matplot.scatter(x_range, y_list)
         matplot.plot(x_range, y_list)
-        annotate_str = "Total Tweets: %s\nTop 5 languages:\n" % self.LANG_TAGGED_TWEETS
+        matplot.title(title, loc='right')
+        annotate_str = "Total Tweets: %s\nTop 5 languages:\n" % total
         for x, y in zip(x_list, y_list)[:5]:
             annotate_str += "%s: %s\n" % (x, y)
-        matplot.text(x_range[len(x_range) - 15], y_list[1], annotate_str)
+        annotate_str += "(Displaying languages of interest)"
+        matplot.text(0.5, 0.6, annotate_str, transform=matplot.gca().transAxes)
         alternator = 1
-        for text, xcoord, ycoord in zip(x_list, x_range, y_list):
+        for idx, tup in enumerate(zip(x_list, x_range, y_list)):
+            text, xcoord, ycoord = tup
             factor = 1
             if alternator % 2 == 0:
                 factor = -1.5
-            matplot.annotate(text, xy = (xcoord, ycoord), xytext = (factor * 20, factor * 20), textcoords = 'offset points', \
-                    arrowprops = dict(arrowstyle = '-', connectionstyle='arc3,rad=0.3'))
-            alternator += 1
+            if idx <= 5 or text in self.interest_languages:
+                matplot.annotate(text, xy = (xcoord, ycoord), xytext = (factor * 20, factor * 20), textcoords = 'offset points', \
+                        arrowprops = dict(arrowstyle = '-', connectionstyle='arc3,rad=0.3'))
+                alternator += 1
         matplot.savefig(filename)
         matplot.clf()
 
+    def calculate_percentage(self, observed, total):
+        return float(format((float(observed) / total) * 100, ".2f"))
+
     def calculate_language_percentage(self, lang_dict, total):
+        self.lang_percentage_dict = {}
         for lang, count in lang_dict.iteritems():
-            self.lang_percentage_dict[lang] = float(format((float(count) / total) * 100, ".2f"))
+            self.lang_percentage_dict[lang] = self.calculate_percentage(count, total)
 
     def check_language(self, tweet):
         tweet_text = tweet['text']
-        langid_classified_lang = langid.classify(tweet_text)[0]
+        langid_classified_lang = self.identifier.classify(tweet_text)[0]
         self.langid_dict[langid_classified_lang] = self.langid_dict.get(langid_classified_lang, 0) + 1
         if 'lang' in tweet and tweet['lang'] != 'und':
             self.LANG_TAGGED_TWEETS += 1
@@ -150,17 +190,22 @@ class TwitterLangMix:
             if language != langid_classified_lang:
                 self.disagree_list.append(tweet)
                 self.disagree_dict[tweet['lang']] = self.disagree_dict.get(tweet['lang'], 0) + 1
+                self.disagree_sample_dict.setdefault(tweet['lang'], []).append(tweet)
             else:
                 self.agree_list.append(tweet)
+                self.agree_sample_dict.setdefault(tweet['lang'], []).append(tweet)
 
     def run_main(self):
         tweet_file_name = "Solution/10000_tweets.txt"
         solution_file_name = "Solution/solution.txt"
         self.solution_file = open(solution_file_name, "w+")
+        self.identifier = LanguageIdentifier.from_modelstring(model, norm_probs=True)
         self.fetch_stream_to_file(10000, tweet_file_name)
-        self.get_tweets_from_location("USA", "country")
         self.process_tweets_in_file(tweet_file_name)
-        self.process_location_tweets()
+        self.get_tweets_from_location("USA", "country")
+        self.get_tweets_from_location("India", "country")
+        self.process_location_tweets("USA")
+        self.process_location_tweets("India")
 
 solution = TwitterLangMix()
 solution.run_main()

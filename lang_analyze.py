@@ -35,8 +35,9 @@ class TwitterLangMix:
         oauth = OAuth(ACCESS_TOKEN, ACCESS_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
         twitter_stream = TwitterStream(auth=oauth)
         iterator = twitter_stream.statuses.sample()
-
         for tweet in iterator:
+            if 'text' not in tweet:
+                continue
             tweet_count -= 1
             output_file.write(json.dumps(tweet) + "\n")
             if tweet_count <= 0:
@@ -215,7 +216,7 @@ class TwitterLangMix:
         solution_file_name = "Solution/solution.txt"
         self.solution_file = open(solution_file_name, "w+")
         self.identifier = LanguageIdentifier.from_modelstring(model, norm_probs=True)
-        self.fetch_stream_to_file(10000, tweet_file_name)
+        self.fetch_stream_to_file(15000, tweet_file_name)
         self.process_tweets_in_file(tweet_file_name)
         self.location_analysis()
 

@@ -35,8 +35,9 @@ class TwitterLangMix:
         oauth = OAuth(ACCESS_TOKEN, ACCESS_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
         twitter_stream = TwitterStream(auth=oauth)
         iterator = twitter_stream.statuses.sample()
-
         for tweet in iterator:
+            if 'text' not in tweet:
+                continue
             tweet_count -= 1
             output_file.write(json.dumps(tweet) + "\n")
             if tweet_count <= 0:
@@ -44,7 +45,7 @@ class TwitterLangMix:
 
         output_file.close()
 
-    def get_tweets_from_location(self, place_name, granularity):
+    def fetch_tweets_from_location(self, place_name, granularity):
         oauth = OAuth(ACCESS_TOKEN, ACCESS_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
         twitter = Twitter(auth=oauth)
         places = twitter.geo.search(query='"%s"' % place_name, granularity="%s" % granularity)
@@ -77,12 +78,8 @@ class TwitterLangMix:
                 lang = tweet['lang']
                 self.loc_lang_dict[lang] = self.loc_lang_dict.get(lang, 0) + 1
 
-        self.solution_file.write(self.LINE_SEPARATOR + "Number of tweets geotagged: %s (%s%%)\n" % (self.GEO_TAGGED_TWEETS, self.calculate_percentage(self.GEO_TAGGED_TWEETS, self.TOTAL_TWEETS)))
-        self.solution_file.write("Number of tweets geotagged '%s': %s (%s%%)\n\n" % (place, self.GEOTAGGED_US_TWEETS, self.calculate_percentage(self.GEOTAGGED_US_TWEETS, self.GEO_TAGGED_TWEETS)))
-
-        self.solution_file.write("Number of tweets geotagged were very few and those geotagged 'US' even fewer. Hence for a better language spread analysis, I decided to use USA as a place in a tweet search query which gives results for tweets that originated in or are about the US.\n\n")
         self.solution_file.write("Number of tweets found from/about %s: %s\n" % (place, self.LOCATION_TWEETS))
-        self.solution_file.write("Number of different languages in tweets from/about %s: %s (See distribution plot)\n" % (place, len(self.loc_lang_dict)))
+        self.solution_file.write("Number of different languages in tweets from/about %s: %s (See distribution plot)\n\n" % (place, len(self.loc_lang_dict)))
 
         self.calculate_language_percentage(self.loc_lang_dict, total_lang_tagged)
         self.build_bar_plot(self.lang_percentage_dict, "Languages in %s" % place, "Percentage", "Percentage Distribution of Languages from/about %s." % place, "Solution/%sLanguagePercentDistribution.png" % place)
@@ -126,6 +123,16 @@ class TwitterLangMix:
 
         self.build_scatter_line_plot(self.lang_dict, "Languages", "Number of Tweets", "Language Distribution Across All Tweets", self.LANG_TAGGED_TWEETS, "Solution/LanguageDistribution.png")
         self.build_bar_plot(self.lang_percentage_dict, "Languages", "Percentage", "Language Percentage Distribution Across All Tweets.", "Solution/LanguagePercentDistribution.png")
+
+    def location_analysis(self):
+        self.solution_file.write(self.LINE_SEPARATOR + "Number of tweets geotagged: %s (%s%%)\n" % (
+                self.GEO_TAGGED_TWEETS, self.calculate_percentage(self.GEO_TAGGED_TWEETS, self.TOTAL_TWEETS)))
+        self.solution_file.write("Number of tweets geotagged are very few. Hence for a better language spread analysis, I am using a search query with place id.\n\n")
+        #self.fetch_tweets_from_location("USA", "country")
+        #self.fetch_tweets_from_location("India", "country")
+        self.process_location_tweets("USA")
+        self.process_location_tweets("India")
+
 
     def build_bar_plot(self, data_dict, xlabel, ylabel, title, filename):
         matplot.rcdefaults()
@@ -174,7 +181,7 @@ class TwitterLangMix:
             if alternator % 2 == 0:
                 factor = -1.5
             if idx <= 5 or text in self.interest_languages:
-                matplot.annotate(text, xy = (xcoord, ycoord), xytext = (factor * 20, factor * 20), textcoords = 'offset points', \
+                matplot.annotate(text, xy = (xcoord, ycoord), xytext = (factor * 20, factor * 20), textcoords = 'offset points',
                         arrowprops = dict(arrowstyle = '-', connectionstyle='arc3,rad=0.3'))
                 alternator += 1
         matplot.savefig(filename)
@@ -209,12 +216,9 @@ class TwitterLangMix:
         solution_file_name = "Solution/solution.txt"
         self.solution_file = open(solution_file_name, "w+")
         self.identifier = LanguageIdentifier.from_modelstring(model, norm_probs=True)
-        self.fetch_stream_to_file(10000, tweet_file_name)
+        self.fetch_stream_to_file(15000, tweet_file_name)
         self.process_tweets_in_file(tweet_file_name)
-        self.get_tweets_from_location("USA", "country")
-        self.get_tweets_from_location("India", "country")
-        self.process_location_tweets("USA")
-        self.process_location_tweets("India")
+        self.location_analysis()
 
 solution = TwitterLangMix()
 solution.run_main()

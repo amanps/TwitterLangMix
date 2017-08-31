@@ -1,131 +1,113 @@
-Total number of tweets: 8621
+Total number of tweets: 15000
 
-Total number of tweets with language tag: 7930 (91.98%)
-Total number of different languages provided by Twitter: 42 (See distribution plot)
+Total number of tweets with language tag: 13811 (92.07%)
+Total number of different languages provided by Twitter: 43 (See distribution plot)
 
-Number of different languages tagged by LangID: 90
+Number of different languages tagged by LangID: 95
 
-Percentage of Twitter and LangID tags that agree: 86.0%
-Top 5 languages they disagree on: [(u'en', 421), (u'es', 166), (u'pt', 143), (u'in', 67), (u'fr', 56)]
+Percentage of Twitter and LangID tags that agree: 85.07%
+Top 5 languages they disagree on: [(u'en', 753), (u'es', 320), (u'pt', 279), (u'in', 126), (u'ar', 90)]
 
 *---*---*---*---*---*---*---*---*---*
 
 Sample of tweets they disagree on in en:
 
-"RT @evolelizabeth: i know i deserve more i just never said it"
+"RT @Iostinstars: midnight dreams https://t.co/uhGZfCYZos"
 Twitter: en
-LangId: no Prob:0.998788731833
+LangId: de Prob:0.491701288477
 
-"RT @Luxnice_Shop: RT MGWV_SHOUT: ❗️GAINTWEETS THAT 💯 WORK❗️
-
-SUBSCRIBE 👉 https://t.co/659Clkacbb
-
-👉 IIIM_G_W_VIII
-👉 DOGFATHER__MGWV
-👉 IIIIM…"
+"RT @alwaysRed2016: Meanwhile 😂🤣😂 https://t.co/0iGSoOeEa4"
 Twitter: en
-LangId: ja Prob:0.974368426826
+LangId: hi Prob:0.364178842491
 
-"RT @carterreynolds: I'm UnFazed"
-Twitter: en
-LangId: de Prob:0.234181601501
+"RT @FootbalIStuff: Cristiano Ronaldo tonight:
 
-"eBay - Calvin Klein K2S371D1 Dart Black Men's Chronograph Watch $113.99 https://t.co/bV2KFr8Nty"
+🎩 48th Career Hat-trick
+🇵🇹 5th Hat-trick for Portugal
+✅ Overtaken Pelé with Internation… "
 Twitter: en
-LangId: de Prob:0.985144285431
+LangId: jv Prob:0.654303017868
 
-"@miyazonokaori TRYING TO KILL ME"
+"RT @TGielo: Històric!!! Jerseys for the upcoming season are fire🔥🔥🔥 #ForçaPenya @sergividal9 &amp; @albertventu14 looking good fell… "
 Twitter: en
-LangId: mg Prob:0.376591399545
+LangId: la Prob:0.999348705097
 
-"@BoomBoomVampire iM SO ANGRY WITH THEM@"
+"RT @OGBRCKS: I mighta jus did sum https://t.co/IdopZXBltH"
 Twitter: en
-LangId: fr Prob:0.504499122831
+LangId: de Prob:0.475377339637
 
-"BITCH I WANNA MEET U https://t.co/yyHEa8Frih"
+"Hello autumn🍂"
 Twitter: en
-LangId: fi Prob:0.96607175473
+LangId: it Prob:0.81353087998
 
-"RT @JonnyBBQ: @UKBBQweek @SherwoodFoods1 @danaykroydish Great prize!"
+"119 ＧＡＩＮ ＦＯＬＬＯＷＥＲＳ 1⃣ ♻RETWEET♻ 2⃣ FO"
 Twitter: en
-LangId: pl Prob:0.872490276571
+LangId: zh Prob:0.999999930032
 
-"#NOWPLAYING Machel Montano &amp; Bunji Garlin - Buss Head on REBEL RADIO LINK FREE APP https://t.co/UdFJnsBHdd"
+"RT @NiallOfficial: Dublin 🇮🇪👍😍 https://t.co/i6y5el5onY"
 Twitter: en
-LangId: hr Prob:0.540814301515
+LangId: am Prob:0.717841325832
 
-"RT @fedefederossi: Baby 😁 https://t.co/mN6Y8rMmIW"
+"Kendrick ¿ https://t.co/blUV35A9Yu"
 Twitter: en
-LangId: ko Prob:0.55204997803
+LangId: mg Prob:0.544514521782
+
+"Picture N°612 https://t.co/GdXqwhSNnh"
+Twitter: en
+LangId: zh Prob:0.185902332524
 
 *---*---*---*---*---*---*---*---*---*
 
 Sample of tweets they agree on:
 
-"RT @GoIvanti: The Ivanti team is rocking @VMWorld at booth #811! Stop by to see how we can ensure you have the best defense again… "
+"I'm way too fast on the highway when you got to Oregon from California."
 Twitter: en
 LangId: en Prob:1.0
 
-"Candice LeRae is the best women's wrestler on the planet and she's so full of sunshine and she is such a good person I LOVE HER"
+"RT @SaorAlba59: Which party's statements do Scottish citizens consider as the most reliable - and which the le… https://t.co/FsT3TxrzFL"
 Twitter: en
 LangId: en Prob:1.0
 
-"RT @RicksDailyTips: Q&amp;A: How can I reset a forgotten #Windows10 #password?
-#WindowsTips
-https://t.co/hBxzwB8JGF https://t.co/PT18aRuE3G"
+"RT @Mvryssv: I can't wait to move out of vegas"
 Twitter: en
-LangId: en Prob:0.999872093182
+LangId: en Prob:0.99999999716
 
-"RT @SocialTrendsZA: #MzanziFolloTrain
-#MzansiFolloTrain
-If you're online let's Gain
-Retweet and
-Follow everyone who
-Retweet
-
-Let's Gain 📈"
+"RT @EPAregion6: Five ways to disinfect your drinking water after a natural disaster: https://t.co/3tEquMImqg"
 Twitter: en
-LangId: en Prob:0.99999999563
+LangId: en Prob:0.999997417319
 
-"RT @KameronBennett: You will Search for me in Another person &amp; never find me.... I guarantee it."
+"RT @Benjamin_MCQ: Mariah should've popped that bitch's implants https://t.co/IMpQgsn5DV"
 Twitter: en
-LangId: en Prob:0.99999999969
+LangId: en Prob:0.999999997388
 
-"RT @Printspixnremix: Get the most out of #Twitter. Try @Socialfave for free! #STLove #Socialfave #TM1SF https://t.co/xt0H5FEexB"
+"RT @Kriz242: My nigga...secure the bag https://t.co/C615xeuo80"
+Twitter: en
+LangId: en Prob:0.999982962802
+
+"While you're supporting the @Chiefs today, don't forget to find the NWL crew and say hello! Spin the prize wheel &amp; get some discounted tix!"
 Twitter: en
 LangId: en Prob:1.0
 
-"This is a very weird venue. #TwinPeaks"
-Twitter: en
-LangId: en Prob:0.999999999987
-
-"@dmm609 @AnitaLea1 @RoxineEvans @L_Bramant @DanSC1952 @trinitysfaith @NameinBook @notjudgin @WhatASaviour7… https://t.co/BlCPrSRTXp"
-Twitter: en
-LangId: en Prob:0.999984671405
-
-"RT @AlterNet: Colorado Adolescents Did Not Increase Marijuana Use in the Year After Retail Sales https://t.co/NjsRLXnfH4"
-Twitter: en
-LangId: en Prob:0.999999999889
-
-"RT @Adamitv: Four #Black employees of #FNB @FNBSA fired for making private political comments in private which were perfectly le… "
+"So the TV series Viper from the 90ies is apparently stuck in some sort of rights limbo. Best I can find is a German-dub-only used DVD box 😟"
 Twitter: en
 LangId: en Prob:1.0
+
+"RT @jennyslate: The earth is female and so am I and we are both fucking OVER all of the weak bros. Sit down and shut up. Shut up&amp;stop telli…"
+Twitter: en
+LangId: en Prob:1.0
+
+"@WestHamUtdFC_1 @Baz1980WHU No option for neither? Or can @WestHamUtd fans only be negative...?"
+Twitter: en
+LangId: en Prob:0.999999999998
 
 *---*---*---*---*---*---*---*---*---*
 
-Number of tweets geotagged: 22 (0.26%)
-Number of tweets geotagged 'USA': 7 (31.82%)
+Number of tweets geotagged: 50 (0.33%)
+Number of tweets geotagged are very few. Hence for a better language spread analysis, I am using a search query with place id.
 
-Number of tweets geotagged were very few and those geotagged 'US' even fewer. Hence for a better language spread analysis, I decided to use USA as a place in a tweet search query which gives results for tweets that originated in or are about the US.
-
-Number of tweets found from/about USA: 2072
+Number of tweets found from/about USA: 2491
 Number of different languages in tweets from/about USA: 22 (See distribution plot)
-*---*---*---*---*---*---*---*---*---*
 
-Number of tweets geotagged: 22 (0.26%)
-Number of tweets geotagged 'India': 7 (31.82%)
+Number of tweets found from/about India: 3094
+Number of different languages in tweets from/about India: 20 (See distribution plot)
 
-Number of tweets geotagged were very few and those geotagged 'US' even fewer. Hence for a better language spread analysis, I decided to use USA as a place in a tweet search query which gives results for tweets that originated in or are about the US.
-
-Number of tweets found from/about India: 2376
-Number of different languages in tweets from/about India: 18 (See distribution plot)

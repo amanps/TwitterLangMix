@@ -7,6 +7,7 @@ from twitter import Twitter, OAuth, TwitterHTTPError, TwitterStream
 from api_keys import *
 from langid.langid import LanguageIdentifier, model
 import matplotlib.pyplot as matplot
+import numpy as np
 
 class TwitterLangMix:
     LANG_TAGGED_TWEETS = 0
@@ -84,7 +85,7 @@ class TwitterLangMix:
         self.solution_file.write("Number of different languages in tweets from/about %s: %s (See distribution plot)\n" % (place, len(self.loc_lang_dict)))
 
         self.calculate_language_percentage(self.loc_lang_dict, total_lang_tagged)
-        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages in %s" % place, "Percentage Distribution of Languages from/about %s." % place, "Solution/%sLanguagePercentDistribution.png" % place)
+        self.build_bar_plot(self.lang_percentage_dict, "Languages in %s" % place, "Percentage", "Percentage Distribution of Languages from/about %s." % place, "Solution/%sLanguagePercentDistribution.png" % place)
         self.build_scatter_line_plot(self.loc_lang_dict, "Languages", "Number of Tweets", "Language Distribution in %s" % place, total_lang_tagged, "Solution/%sLanguageDistribution.png" % place)
         self.loc_lang_dict = {}
 
@@ -124,26 +125,34 @@ class TwitterLangMix:
             self.solution_file.write("Twitter: %s\nLangId: %s Prob:%s\n\n" % (tweet['lang'], self.identifier.classify(tweet['text'])[0].encode('utf-8'), self.identifier.classify(tweet['text'])[1]))
 
         self.build_scatter_line_plot(self.lang_dict, "Languages", "Number of Tweets", "Language Distribution Across All Tweets", self.LANG_TAGGED_TWEETS, "Solution/LanguageDistribution.png")
-        self.build_bar_plot(self.lang_percentage_dict, "Percentage", "Languages", "Language Percentage Distribution Across All Tweets.", "Solution/LanguagePercentDistribution.png")
+        self.build_bar_plot(self.lang_percentage_dict, "Languages", "Percentage", "Language Percentage Distribution Across All Tweets.", "Solution/LanguagePercentDistribution.png")
 
     def build_bar_plot(self, data_dict, xlabel, ylabel, title, filename):
-        x_list = sorted(data_dict, key = data_dict.get, reverse = True)
-        y_list = sorted(data_dict.values(), reverse = True)
-        x_range = range(len(x_list))
-        #matplot.figure(figsize=(30, 30))
+        matplot.rcdefaults()
+        fig, ax = matplot.subplots(figsize=(16,10))
+        y_list = sorted(data_dict, key = data_dict.get, reverse = True)
+        x_list = sorted(data_dict.values(), reverse = True)
+        bar_width = 15
+        step = bar_width + 5
+        y_range = np.arange(0, step * len(y_list), step)
+
         annotate_str = "Top 5 languages:\n"
-        for x, y in zip(x_list, y_list)[:5]:
+        for x, y in zip(y_list, x_list)[:5]:
             annotate_str += "%s: %s%%\n" % (x, y)
-        matplot.barh(x_range, y_list, align = 'center', alpha = 1)
-        matplot.yticks(x_range, x_list, fontsize=5)
-        matplot.xlabel(xlabel)
-        matplot.ylabel(ylabel)
-        matplot.title(title)
+
+        ax.bar(y_range, x_list, width = bar_width, fc = (0, 0, 1, 0.3), edgecolor='black', linewidth=2)
+        ax.set_xticks(y_range + bar_width / 2)
+        ax.set_xticklabels(y_list)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        ax.set_title(title)
         matplot.text(0.5, 0.6, annotate_str, transform=matplot.gca().transAxes)
         matplot.savefig(filename)
+        matplot.close()
         matplot.clf()
 
     def build_scatter_line_plot(self, data_dict, xlabel, ylabel, title, total, filename):
+        matplot.rcdefaults()
         x_list = sorted(data_dict, key = data_dict.get, reverse = True)
         y_list = sorted(data_dict.values(), reverse = True)
         x_range = range(len(x_list))
@@ -156,7 +165,7 @@ class TwitterLangMix:
         annotate_str = "Total Tweets: %s\nTop 5 languages:\n" % total
         for x, y in zip(x_list, y_list)[:5]:
             annotate_str += "%s: %s\n" % (x, y)
-        annotate_str += "(Displaying languages of interest)"
+        annotate_str += "(Only popular languages labeled)"
         matplot.text(0.5, 0.6, annotate_str, transform=matplot.gca().transAxes)
         alternator = 1
         for idx, tup in enumerate(zip(x_list, x_range, y_list)):

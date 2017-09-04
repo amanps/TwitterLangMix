@@ -1,113 +1,123 @@
 Total number of tweets: 15000
 
-Total number of tweets with language tag: 13811 (92.07%)
-Total number of different languages provided by Twitter: 43 (See distribution plot)
+Total number of tweets with language tag: 13867 (92.45%)
+Total number of different languages provided by Twitter: 44 (See distribution plot)
 
-Number of different languages tagged by LangID: 95
+Number of different languages tagged by LangID: 92
 
-Percentage of Twitter and LangID tags that agree: 85.07%
-Top 5 languages they disagree on: [(u'en', 753), (u'es', 320), (u'pt', 279), (u'in', 126), (u'ar', 90)]
+Percentage of Twitter and LangID tags that agree: 85.71%
+Top 5 languages they disagree on: [(u'en', 708), (u'es', 315), (u'pt', 309), (u'fr', 99), (u'ar', 95)]
 
 *---*---*---*---*---*---*---*---*---*
 
 Sample of tweets they disagree on in en:
 
-"RT @Iostinstars: midnight dreams https://t.co/uhGZfCYZos"
+"Make a quick flip, take a quick trip."
 Twitter: en
-LangId: de Prob:0.491701288477
+LangId: es Prob:0.644958696423
 
-"RT @alwaysRed2016: Meanwhile 😂🤣😂 https://t.co/0iGSoOeEa4"
+"RT @queensmom_3: @rogerfederer at Central Park tennis courts! 🎾 @usopen #centralparktennis #RogerFederer https://t.co/Z1DPNLFfL6"
 Twitter: en
-LangId: hi Prob:0.364178842491
+LangId: da Prob:0.942629697799
 
-"RT @FootbalIStuff: Cristiano Ronaldo tonight:
+"RT @Turkguncelporno: Anal.😋😘😍
 
-🎩 48th Career Hat-trick
-🇵🇹 5th Hat-trick for Portugal
-✅ Overtaken Pelé with Internation… "
+https://t.co/uFM3sisKfx"
 Twitter: en
-LangId: jv Prob:0.654303017868
+LangId: sl Prob:0.703321704742
 
-"RT @TGielo: Històric!!! Jerseys for the upcoming season are fire🔥🔥🔥 #ForçaPenya @sergividal9 &amp; @albertventu14 looking good fell… "
+"RT @allkpop: #HappyJungkookDay trends #1 worldwide for #BTS' Jungkook's birthday! https://t.co/KzFt5uvInj https://t.co/GxoRStJNra"
 Twitter: en
-LangId: la Prob:0.999348705097
+LangId: id Prob:0.912311974226
 
-"RT @OGBRCKS: I mighta jus did sum https://t.co/IdopZXBltH"
+"@BradyStardust Same"
 Twitter: en
-LangId: de Prob:0.475377339637
+LangId: et Prob:0.913675597797
 
-"Hello autumn🍂"
+"RT @Cyn_Santana: Virgos r pretty fuckin dope lol"
 Twitter: en
-LangId: it Prob:0.81353087998
+LangId: es Prob:0.949092015083
 
-"119 ＧＡＩＮ ＦＯＬＬＯＷＥＲＳ 1⃣ ♻RETWEET♻ 2⃣ FO"
+"RT @Stonerock991: Sexy Tiny Blonde @dakotadollhouse Swallows A Big Load From Mandingo's BBC https://t.co/wCgTXNmYQ2"
 Twitter: en
-LangId: zh Prob:0.999999930032
+LangId: pt Prob:0.511648364463
 
-"RT @NiallOfficial: Dublin 🇮🇪👍😍 https://t.co/i6y5el5onY"
+"@swigdigs @counterfeitrock @OfficialRandL @Jamiebower @MrRolandJohnson @tristanmarmont @Jamescraigdrums @bower_sam ❤️ you xx"
 Twitter: en
-LangId: am Prob:0.717841325832
+LangId: qu Prob:0.591875155056
 
-"Kendrick ¿ https://t.co/blUV35A9Yu"
+"@jennifxrmarie IM SORRY BUT"
 Twitter: en
-LangId: mg Prob:0.544514521782
+LangId: ro Prob:0.840597880467
 
-"Picture N°612 https://t.co/GdXqwhSNnh"
+"@Bechtel @GeorgiaPower Welcome!"
 Twitter: en
-LangId: zh Prob:0.185902332524
+LangId: de Prob:0.718944332366
 
 *---*---*---*---*---*---*---*---*---*
 
 Sample of tweets they agree on:
 
-"I'm way too fast on the highway when you got to Oregon from California."
+"→ i need to feel you every day, your hands touch me. ←"
+Twitter: en
+LangId: en Prob:0.999986609077
+
+"RT @IanDunt: 15 months after Brexit and the political reputation of the British is increasingly of being ill-prepared, unintelligent and xe…"
 Twitter: en
 LangId: en Prob:1.0
 
-"RT @SaorAlba59: Which party's statements do Scottish citizens consider as the most reliable - and which the le… https://t.co/FsT3TxrzFL"
+"Lavar knew this.....Melo must be playing overseas https://t.co/P4KxYA5ytF"
+Twitter: en
+LangId: en Prob:0.999993295287
+
+"RT @Shawnife_: Even monkeys don't eat bananas like this https://t.co/4lhKiamZE9"
+Twitter: en
+LangId: en Prob:0.999954372822
+
+"RT @SGcharts: “It Ain’t Me” is now certified as DIAMOND single in France! Congratulations, @KygoMusic &amp; @selenagomez! 🇫🇷🎉 https://t.co/E2wx…"
+Twitter: en
+LangId: en Prob:0.998412363917
+
+"@ThomasS03524120 @NBCNews As they should have for the past 8years!! They our on our payroll and we as citizens NEED… https://t.co/dlcoVz036z"
 Twitter: en
 LangId: en Prob:1.0
 
-"RT @Mvryssv: I can't wait to move out of vegas"
-Twitter: en
-LangId: en Prob:0.99999999716
-
-"RT @EPAregion6: Five ways to disinfect your drinking water after a natural disaster: https://t.co/3tEquMImqg"
-Twitter: en
-LangId: en Prob:0.999997417319
-
-"RT @Benjamin_MCQ: Mariah should've popped that bitch's implants https://t.co/IMpQgsn5DV"
-Twitter: en
-LangId: en Prob:0.999999997388
-
-"RT @Kriz242: My nigga...secure the bag https://t.co/C615xeuo80"
-Twitter: en
-LangId: en Prob:0.999982962802
-
-"While you're supporting the @Chiefs today, don't forget to find the NWL crew and say hello! Spin the prize wheel &amp; get some discounted tix!"
+"RT @Hayles_101: Wonder if Lukaku, Barkley, Ox &amp; Llorente all bumped into each other in a bar recently and one said 'Lads, do you know what…"
 Twitter: en
 LangId: en Prob:1.0
 
-"So the TV series Viper from the 90ies is apparently stuck in some sort of rights limbo. Best I can find is a German-dub-only used DVD box 😟"
+"I keep wanting to tweet them and then.   not"
 Twitter: en
 LangId: en Prob:1.0
 
-"RT @jennyslate: The earth is female and so am I and we are both fucking OVER all of the weak bros. Sit down and shut up. Shut up&amp;stop telli…"
+"@VRDiplomat @NBCNews Ha.....this from "I was talking about Trump supporters"?
+Fox News Fever?
+Assume much?
+I'm not… https://t.co/klCp84IUg4"
 Twitter: en
-LangId: en Prob:1.0
+LangId: en Prob:0.99999998832
 
-"@WestHamUtdFC_1 @Baz1980WHU No option for neither? Or can @WestHamUtd fans only be negative...?"
+"RT @_mandyymoore: THERE NEVER WAS A GAS SHORTAGE YALL ARE THE ONES WHO ARE CAUSING IT"
 Twitter: en
-LangId: en Prob:0.999999999998
+LangId: en Prob:0.861413028188
 
 *---*---*---*---*---*---*---*---*---*
 
-Number of tweets geotagged: 50 (0.33%)
-Number of tweets geotagged are very few. Hence for a better language spread analysis, I am using a search query with place id.
+Number of tweets geotagged out of the total tweet stream: 33 (0.22%)            
+Which is a very tiny percentage of the total tweets. Hence I'm using a tweet stream with a location filter.
+*---*---*---*---*---*---*---*---*---*
 
-Number of tweets found from/about USA: 2491
-Number of different languages in tweets from/about USA: 22 (See distribution plot)
+Tweet Analysis for USA:
 
-Number of tweets found from/about India: 3094
-Number of different languages in tweets from/about India: 20 (See distribution plot)
+Number of tweets found from US: 10000
+Number of different languages in tweets from US: 33 (See distribution plot)
+
+*---*---*---*---*---*---*---*---*---*
+
+Tweet Analysis for India:
+
+Number of tweets found from India: 10627
+Number of different languages in tweets from India: 24 (See distribution plot)
+
+*---*---*---*---*---*---*---*---*---*
 

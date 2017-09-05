@@ -1,0 +1,142 @@
+Total number of tweets streamed: 15000
+
+Number of Tweets lang-tagged by Twitter: 14052 (93.68%)
+Number of different lang tags provided by Twitter: 48 (See file LanguagePercentDistribution.png for percentage distribution for each language.)
+
+Number of different languages tagged by LangID: 97
+Percentage of Twitter and LangID tags that agree: 85.68%
+
+Top 5 languages they disagree on:
+en: 784 cases
+in: 320 cases
+es: 287 cases
+pt: 156 cases
+tl: 90 cases
+
+As can be observed in the sample of tweets below, Twitter and LandID usually disagree in the case of:
+Short tweets: When the tweet is not long enough to determine which language it is in.
+Noisy tweets: When the ratio of number of 'noisy' words to the number of common language words is high. Noisy words could be emojis, links, @ mentions, hashtags, slang, shortform etc. 
+Grammatically incorrect: When tweets do not grammatically conform to one language and the grammar used in the tweet may belong to more than one language.
+
+The tweets they agree on are usually longer, have more words that belong distinctly to 1 language, are grammatically correct and in general their sentence structure resembles that of a particular language (say English).
+
+*---*---*---*---*---*---*---*---*---*
+
+Sample of tweets they agree on in English:
+
+"Keeping myself up just so I can continue texting him 😭"
+
+"lol I think this is the best/worst time of life, trying to grow up but not wanting to accept reality."
+
+"RT @malkin71_: The only thing @PKessel81 is missing is his hot dogs 🌭🌭🌭🐦🐦🐦 https://t.co/JH0nNPyezw"
+
+"Why does that happen ? ..."
+
+"I have a rising follower graph! 1 more follower in the past week. Get your stats right here https://t.co/LeApKORVrK"
+
+"Not wearing make up feels so good until you look in the mirror"
+
+"How to #transform Your #company into a #tech Company | https://t.co/83TPicSCd4 | @HuffPost @gregsgroove #Strategy #DigitalTransformation"
+
+"RT @Dory: I absolutely will continue doing this https://t.co/93mwuiiVQ3"
+
+"RT @PanickarS: 1600+ people in an auditorium! They came to know what happened to someone our leaders pronounced dead in 1945. Wake… "
+
+"@thehill @PrincessBravato He could resign"
+
+*---*---*---*---*---*---*---*---*---*
+
+Sample of tweets they disagree on in en (English):
+
+"@FeelsLike98 you're kidding me"
+Twitter: en
+LangId: et Prob:0.796049157214
+
+"RT @JustCallMe_Jass: @khaelyeah Thanks baby girl !"
+Twitter: en
+LangId: id Prob:0.552779424576
+
+"@BB_Updates My stomach is in knots! Kevin 😭😭😭"
+Twitter: en
+LangId: ga Prob:0.994134737806
+
+"RT @ImVictorrr: My boo so fine yall 😭🤤"
+Twitter: en
+LangId: hi Prob:0.848065619359
+
+"@MFreudenborg @butchey12 @63_cabaa @AurelioBelandoM @audreyfashion4 @tdbeadles @AlanDouglas2016 @dugday1960… https://t.co/DPoLlopMLl"
+Twitter: en
+LangId: cy Prob:0.999306979945
+
+"RT @FuentesMark5: Never doing shit for you again"
+Twitter: en
+LangId: da Prob:0.611238193253
+
+"@FaZeJev Sweet"
+Twitter: en
+LangId: sl Prob:0.390907740258
+
+"RT @KNart95: 💫 you are my favorite #Serendipity 💫 #LOVE_YOURSELF #JIMIN https://t.co/O6u13AVkE2"
+Twitter: en
+LangId: sq Prob:0.999990925171
+
+"RT @ygent_official: [BOBBY - LOVE AND FALL 'I LOVE YOU']
+originally posted by https://t.co/XZQ3IOI9MY
+#BOBBY #바비 #사랑해 #ILOVEYOU #201709… "
+Twitter: en
+LangId: ko Prob:1.0
+
+"We Provide social reintegration programs to ex-prisoners. #Sdasa #Sdasa50 #Sdasa67 #Ebenezer #HopeIsOurAnchor"
+Twitter: en
+LangId: br Prob:0.944896352952
+
+*---*---*---*---*---*---*---*---*---*
+
+Geotagging:
+Number of tweets geotagged out of the total tweet stream: 24 (0.16%)            
+Which is a very tiny percentage of the total tweets. Hence I'm using a tweet stream with a location filter.
+
+*---*---*---*---*---*---*---*---*---*
+
+Tweet Analysis for USA:
+
+Number of tweets found from US: 8552
+Number of different languages in tweets from US: 32 (See plot for percentage of each language)
+
+Tweet Analysis for India:
+
+Number of tweets found from India: 2533
+Number of different languages in tweets from India: 39 (See plot for percentage of each language)
+
+In the language plots of US it can be observed that one language (english) dominates the spread of languages. The second language is a very small percentage of the total. 
+In contrast, the language distribution of India shows domination of two languages English and Hindi, and the difference between the top language and the second is not as large as the US which shows that a second language is significantly popular in the Indian subcontinent.
+
+*---*---*---*---*---*---*---*---*---*
+
+'UND' language tag:
+1933 tweets could not be tagged by Twitter's language tagging model.
+
+Sample of tweets that are tagged 'und' by Twitter (those that could not be tagged)
+
+"RT @V2_N_St0: @omniajen @Quinnqueens @TT4F_Elite @Stallion_Team @Ahmad_Haif @MGWV1oo @ScarfaceQbc @RaisAlGhousia #TT4F… "
+
+"@plbrocks  https://t.co/6VYhNPWeuy"
+
+"I d https://t.co/zb51O6Dt0r"
+
+"RT @plamizo_pechita: ！ https://t.co/8DrBaNI88z"
+
+"RT @TheManGallery: https://t.co/YpQz0LOQcu"
+
+"RT @bestoffnike: https://t.co/aDoRGikcmY"
+
+"💀💀💀 https://t.co/yFPcTV3WTR"
+
+"@eugenegu @markbland @realDonaldTrump  https://t.co/H0oISP3sA0"
+
+"RT @Tomoya_KGS: https://t.co/yNfuFGvQaN"
+
+"11:11 💕"
+
+We can observe in this sample that those tweets which do not have a lot of words that belong to a language and instead have a greater proportion of 'noise' text like links, emojis, @ mentions etc cannot be tagged by Twitter's language tagging model.
+
